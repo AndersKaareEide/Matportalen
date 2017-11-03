@@ -26,7 +26,7 @@ def viewVisits(orgnr):
         thisGrade = getSmileForVisit(allVisits[visit])
         visits["visit"+str(k)] = {"fjes": thisGrade, "dato": allVisits[visit]["dato"]}
         k += 1
-    return visits
+    return str(visits)
 
 
 def getSmileForVisit(visit):
@@ -40,7 +40,7 @@ def getSmileForVisit(visit):
 
 @app.route('/')
 def home():
-    return str(viewVisits("985129576"))
+    return render_template("restaurant.html", json=viewVisits("985129576"), title="Matportalen")
 
 
 @app.route('/<name>')
