@@ -1,22 +1,34 @@
 from flask import Flask, render_template
 
 import json
+from typing import List, Iterator
 
 app = Flask(__name__)
 
+
 def getAllRestaurantVisits(orgnr):
-    with open('../data/data.json', 'r') as f:
-        lol = f.read()
-        fullDB = json.loads(lol)
-    list = fullDB["entries"]
+    list = getEntryList()
     result = {}
     k = 0
     for i in list:
-        if i["orgnummer"]:
-            if i["orgnummer"] == orgnr:
-                result["visit" + str(k)] = i
-                k += 1
+        if i["orgnummer"] and i["orgnummer"] == orgnr:
+            result["visit" + str(k)] = i
+            k += 1
     return result
+
+
+def getEntryList() -> List[dict]:
+    with open('../data/data.json', 'r') as file:
+        jsonBuffer = file.read()
+        fullDB = json.loads(jsonBuffer)
+    return fullDB["entries"]
+
+
+def getEntriesForRestaurant(name: str) -> List[dict]:
+    entryList = getEntryList()
+    result = {}
+    return list(filter(lambda e: e["navn"] == name, entryList))
+
 
 def viewVisits(orgnr):
     allVisits = getAllRestaurantVisits(orgnr)
@@ -24,7 +36,7 @@ def viewVisits(orgnr):
     k = 0
     for visit in allVisits:
         thisGrade = getSmileForVisit(allVisits[visit])
-        visits["visit"+str(k)] = {"fjes": thisGrade, "dato": allVisits[visit]["dato"]}
+        visits["visit" + str(k)] = {"fjes": thisGrade, "dato": allVisits[visit]["dato"]}
         k += 1
     return str(visits)
 
@@ -40,16 +52,13 @@ def getSmileForVisit(visit):
 
 @app.route('/')
 def home():
-    return render_template("restaurant.html", json=viewVisits("985129576"), title="Matportalen")
+    return render_template("restaurant.html", json=str(getEntriesForRestaurant("Abc Thai AS")), title="Matportalen")
 
 
 @app.route('/<name>')
 def restaurant(name):
-    return render_template("restaurant.html", title=name)
+    return render_template("restaurant.html", title=name, json=str(getEntriesForRestaurant(name)))
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
