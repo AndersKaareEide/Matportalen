@@ -4,11 +4,11 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
+def home():
     return render_template("base.html", title="Matportalen")
 
-@app.route('/restaurant/<name>')
-def audun(name):
+@app.route('/<name>')
+def restaurant(name):
     return render_template("base.html", title=name)
 
 
