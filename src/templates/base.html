@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{%- block html %}
+  <head>
+      <link rel="icon" type="image/png" href="/static/bgpics/favico.png" />
+    {%- block head %}
+    <title>{% block title %}{{title.title()|default}}{% endblock title %}</title>
+
+    {%- block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%- endblock metas %}
+
+    {%- block styles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/base-min.css">
+    <link rel="stylesheet" href="/static/localstyles.css">
+    {%- endblock styles %}
+    {%- endblock head %}
+  </head>
+  <body {% block body_attribs %}{% endblock body_attribs %}>
+    <div class="pure-menu custom-restricted-width">
+    {% block navbar %}
+
+    <span class="pure-menu-heading">Matportalen</span>
+
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item"><a href="/" class="pure-menu-link">Home</a></li>
+    </ul>
+
+    {%- endblock navbar %}
+    </div>
+    <div class="centered-70">
+
+    {% block body -%}
+
+    {% block content -%}
+    {%- endblock content %}
+    {%- endblock body %}
+    </div>
+
+  </body>
+{%- endblock html %}
+</html>
