@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style/stylesheet.css">
+    <link rel="stylesheet" href="style/mediaquerries.css">
+</head>
+<body>
+<!--  Relative to index.html, main.elm lives in src/Main.elm. -->
+<!-- Prefixing that with /_compile/ gives us magic! -->
+<script src="main.js"></script>
+<script>
+  var rawFile = new XMLHttpRequest();
+  fetch("http://hotell.difi.no/api/json/mattilsynet/smilefjes/tilsyn?.json")
+    .then(e => e.json())
+    .then(e => Elm.Main.fullscreen(e))
+  // rawFile.open("GET", "http://hotell.difi.no/api/json/mattilsynet/smilefjes/tilsyn?.json", false);
+  // rawFile.onreadystatechange = function ()
+  // {
+  //   var json = rawFile.response;
+  //   Elm.Main.fullscreen(json);
+  // }
+  rawFile.send(null);
+</script>
+</body>
+</html>
